@@ -225,7 +225,7 @@ def aggregate_qffl(
     parameters: NDArrays, deltas: list[NDArrays], hs_fll: list[NDArrays]
 ) -> NDArrays:
     """Compute weighted average based on Q-FFL paper."""
-    demominator: float = np.sum(np.asarray(hs_fll))
+    demominator: NDArray = np.sum(np.asarray(hs_fll))
     scaled_deltas = []
     for client_delta in deltas:
         scaled_deltas.append([layer * 1.0 / demominator for layer in client_delta])

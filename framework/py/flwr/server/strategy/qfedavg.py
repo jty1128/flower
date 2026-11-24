@@ -17,7 +17,6 @@
 Paper: openreview.net/pdf?id=ByexElSYDr
 """
 
-
 from logging import WARNING
 from typing import Callable, Optional, Union
 
