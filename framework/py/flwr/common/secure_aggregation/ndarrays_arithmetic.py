@@ -14,52 +14,47 @@
 # ==============================================================================
 """Utility functions for performing operations on Numpy NDArrays."""
 
-
-from typing import Any, Union
+from typing import Union
 
 import numpy as np
-from numpy.typing import DTypeLike, NDArray
+from numpy.typing import DTypeLike
 
 
-def factor_combine(factor: int, parameters: list[NDArray[Any]]) -> list[NDArray[Any]]:
+def factor_combine(factor: int, parameters: NDArrays) -> NDArrays:
     """Combine factor with parameters."""
     return [np.array([factor])] + parameters
 
 
 def factor_extract(
-    parameters: list[NDArray[Any]],
-) -> tuple[int, list[NDArray[Any]]]:
+    parameters: NDArrays,
+) -> tuple[int, NDArrays]:
     """Extract factor from parameters."""
     return parameters[0][0], parameters[1:]
 
 
-def get_parameters_shape(parameters: list[NDArray[Any]]) -> list[tuple[int, ...]]:
+def get_parameters_shape(parameters: NDArrays) -> list[tuple[int, ...]]:
     """Get dimensions of each NDArray in parameters."""
     return [arr.shape for arr in parameters]
 
 
 def get_zero_parameters(
     dimensions_list: list[tuple[int, ...]], dtype: DTypeLike = np.int64
-) -> list[NDArray[Any]]:
+) -> NDArrays:
     """Generate zero parameters based on the dimensions list."""
     return [np.zeros(dimensions, dtype=dtype) for dimensions in dimensions_list]
 
 
-def parameters_addition(
-    parameters1: list[NDArray[Any]], parameters2: list[NDArray[Any]]
-) -> list[NDArray[Any]]:
+def parameters_addition(parameters1: NDArrays, parameters2: NDArrays) -> NDArrays:
     """Add two parameters."""
     return [parameters1[idx] + parameters2[idx] for idx in range(len(parameters1))]
 
 
-def parameters_subtraction(
-    parameters1: list[NDArray[Any]], parameters2: list[NDArray[Any]]
-) -> list[NDArray[Any]]:
+def parameters_subtraction(parameters1: NDArrays, parameters2: NDArrays) -> NDArrays:
     """Subtract parameters from the other parameters."""
     return [parameters1[idx] - parameters2[idx] for idx in range(len(parameters1))]
 
 
-def parameters_mod(parameters: list[NDArray[Any]], divisor: int) -> list[NDArray[Any]]:
+def parameters_mod(parameters: NDArrays, divisor: int) -> NDArrays:
     """Take mod of parameters with an integer divisor."""
     if bin(divisor).count("1") == 1:
         msk = divisor - 1
@@ -68,14 +63,12 @@ def parameters_mod(parameters: list[NDArray[Any]], divisor: int) -> list[NDArray
 
 
 def parameters_multiply(
-    parameters: list[NDArray[Any]], multiplier: Union[int, float]
-) -> list[NDArray[Any]]:
+    parameters: NDArrays, multiplier: Union[int, float]
+) -> NDArrays:
     """Multiply parameters by an integer/float multiplier."""
     return [parameters[idx] * multiplier for idx in range(len(parameters))]
 
 
-def parameters_divide(
-    parameters: list[NDArray[Any]], divisor: Union[int, float]
-) -> list[NDArray[Any]]:
+def parameters_divide(parameters: NDArrays, divisor: Union[int, float]) -> NDArrays:
     """Divide weight by an integer/float divisor."""
     return [parameters[idx] / divisor for idx in range(len(parameters))]

@@ -14,7 +14,6 @@
 # ==============================================================================
 """ServerAppIo gRPC API."""
 
-
 from logging import INFO
 from typing import Optional
 
@@ -40,7 +39,7 @@ def run_serverappio_api_grpc(
 ) -> grpc.Server:
     """Run ServerAppIo API (gRPC, request-response)."""
     # Create ServerAppIo API gRPC server
-    serverappio_servicer: grpc.Server = ServerAppIoServicer(
+    serverappio_servicer: ServerAppIoServicer = ServerAppIoServicer(
         state_factory=state_factory,
         ffs_factory=ffs_factory,
     )

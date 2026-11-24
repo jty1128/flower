@@ -14,7 +14,6 @@
 # ==============================================================================
 """Unit tests for ArrayRecord."""
 
-
 import json
 import sys
 import unittest
@@ -392,7 +391,7 @@ class TestArrayRecord(unittest.TestCase):
             ArrayRecord.inflate(arr_rec_b)
         # Inflate but passing wrong Children type
         with pytest.raises(ValueError):
-            ArrayRecord.inflate(arr_rec_b, children={"123": np.array(5)})  # type: ignore
+            ArrayRecord.inflate(arr_rec_b, children={"123": np.array(5)})
         # Inflate but passing children with wrong Object ID
         with pytest.raises(ValueError):
             ArrayRecord.inflate(arr_rec_b, children={"123": Array(arr)})
@@ -412,7 +411,7 @@ def test_count_bytes(shape: list[int], dtype: str) -> None:
 
     buff = ndarray_to_bytes(original_array)
 
-    buffer = _get_buffer_from_ndarray(original_array)
+    buffer = _get_buffer_from_ndarray(original_array)  # type: ignore[attr-defined]
 
     array_instance = Array(
         dtype=str(original_array.dtype),
