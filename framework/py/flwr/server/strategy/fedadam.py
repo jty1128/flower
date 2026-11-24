@@ -19,7 +19,6 @@
 Paper: arxiv.org/abs/2003.00295
 """
 
-
 from typing import Callable, Optional, Union
 
 import numpy as np
@@ -151,7 +150,8 @@ class FedAdam(FedOpt):
 
         # Adam
         delta_t: NDArrays = [
-            x - y for x, y in zip(fedavg_weights_aggregate, self.current_weights)
+            np.subtract(x, y)
+            for x, y in zip(fedavg_weights_aggregate, self.current_weights)
         ]
 
         # m_t

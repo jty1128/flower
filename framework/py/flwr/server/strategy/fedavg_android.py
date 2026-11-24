@@ -17,7 +17,6 @@
 Paper: arxiv.org/abs/1602.05629
 """
 
-
 from typing import Callable, Optional, Union, cast
 
 import numpy as np
@@ -236,7 +235,7 @@ class FedAvgAndroid(Strategy):
 
     def ndarray_to_bytes(self, ndarray: NDArray) -> bytes:
         """Serialize NumPy array to bytes."""
-        return ndarray.tobytes()
+        return cast(bytes, ndarray.tobytes())
 
     def bytes_to_ndarray(self, tensor: bytes) -> NDArray:
         """Deserialize NumPy array from bytes."""

@@ -14,7 +14,6 @@
 # ==============================================================================
 """Modifier for the SecAgg+ protocol."""
 
-
 import os
 from dataclasses import dataclass, field
 from logging import DEBUG, WARNING
