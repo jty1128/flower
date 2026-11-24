@@ -17,7 +17,6 @@
 Paper: openreview.net/pdf?id=ByexElSYDr
 """
 
-
 from logging import WARNING
 from typing import Callable, Optional, Union
 
@@ -200,6 +199,7 @@ class QFedAvg(FedAvg):
             grads = [
                 np.multiply((u - v), 1.0 / self.learning_rate)
                 for u, v in zip(weights_before, new_weights)
+                if isinstance(u, np.ndarray) and isinstance(v, np.ndarray)
             ]
             deltas.append(
                 [np.float_power(loss + 1e-10, self.q_param) * grad for grad in grads]

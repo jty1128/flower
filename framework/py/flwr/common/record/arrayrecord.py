@@ -14,7 +14,6 @@
 # ==============================================================================
 """ArrayRecord."""
 
-
 from __future__ import annotations
 
 import gc
@@ -212,7 +211,7 @@ class ArrayRecord(TypedDict[str, Array]):
             # Type check the input
             # pylint: disable-next=not-an-iterable
             if isinstance(arg, list) and all(isinstance(v, np.ndarray) for v in arg):
-                numpy_ndarrays = cast(list[NDArray], arg)
+                numpy_ndarrays = arg
                 converted = self.from_numpy_ndarrays(
                     numpy_ndarrays, keep_input=keep_input
                 )
@@ -228,9 +227,7 @@ class ArrayRecord(TypedDict[str, Array]):
                 and all(isinstance(k, str) for k in arg.keys())
                 and all(isinstance(v, torch.Tensor) for v in arg.values())
             ):
-                torch_state_dict = cast(
-                    OrderedDict[str, torch.Tensor], arg  # type: ignore
-                )
+                torch_state_dict = cast(OrderedDict[str, torch.Tensor], arg)
                 converted = self.from_torch_state_dict(
                     torch_state_dict, keep_input=keep_input
                 )

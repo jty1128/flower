@@ -19,7 +19,6 @@
 Paper: arxiv.org/abs/2003.00295
 """
 
-
 from typing import Callable, Optional, Union
 
 import numpy as np
@@ -147,7 +146,9 @@ class FedAdam(FedOpt):
         if fedavg_parameters_aggregated is None:
             return None, {}
 
-        fedavg_weights_aggregate = parameters_to_ndarrays(fedavg_parameters_aggregated)
+        fedavg_weights_aggregate = cast(
+            NDArrays, parameters_to_ndarrays(fedavg_parameters_aggregated)
+        )
 
         # Adam
         delta_t: NDArrays = [

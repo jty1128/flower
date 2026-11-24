@@ -47,7 +47,7 @@ app.command()(ls)
 app.command()(stop)
 app.command()(login)
 
-typer_click_object = get_command(app)
+typer_click_object = get_command(app)  # pylint: disable=unused-import
 
 
 @app.callback(invoke_without_command=True)

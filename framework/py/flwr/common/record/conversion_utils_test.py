@@ -14,7 +14,6 @@
 # ==============================================================================
 """Unit tests for conversion utility functions."""
 
-
 import unittest
 from io import BytesIO
 
@@ -33,7 +32,7 @@ class TestArrayFromNumpy(unittest.TestCase):
         original_array = np.array([1, 2, 3], dtype=np.float32)
 
         # Execute
-        array_instance = array_from_numpy(original_array)
+        array_instance: Array = array_from_numpy(original_array)
         buffer = BytesIO(array_instance.data)
         deserialized_array = np.load(buffer, allow_pickle=False)
 
