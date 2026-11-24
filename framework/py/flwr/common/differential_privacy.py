@@ -14,7 +14,6 @@
 # ==============================================================================
 """Utility functions for differential privacy."""
 
-
 from logging import WARNING
 from typing import Optional
 
@@ -31,7 +30,7 @@ from flwr.common.logger import log
 
 def get_norm(input_arrays: NDArrays) -> float:
     """Compute the L2 norm of the flattened input."""
-    array_norms = [np.linalg.norm(array.flat) for array in input_arrays]
+    array_norms = [np.linalg.norm(array.flat) for array in input_arrays]  # type: ignore
     # pylint: disable=consider-using-generator
     return float(np.sqrt(sum([norm**2 for norm in array_norms])))
 
@@ -39,8 +38,8 @@ def get_norm(input_arrays: NDArrays) -> float:
 def add_gaussian_noise_inplace(input_arrays: NDArrays, std_dev: float) -> None:
     """Add Gaussian noise to each element of the input arrays."""
     for array in input_arrays:
-        noise = np.random.normal(0, std_dev, array.shape).astype(array.dtype)
-        array += noise
+        noise = np.random.normal(0, std_dev, array.shape).astype(array.dtype)  # type: ignore
+        array += noise  # type: ignore
 
 
 def clip_inputs_inplace(input_arrays: NDArrays, clipping_norm: float) -> None:
@@ -51,7 +50,7 @@ def clip_inputs_inplace(input_arrays: NDArrays, clipping_norm: float) -> None:
     input_norm = get_norm(input_arrays)
     scaling_factor = min(1, clipping_norm / input_norm)
     for array in input_arrays:
-        array *= scaling_factor
+        array *= scaling_factor  # type: ignore
 
 
 def compute_stdv(
@@ -70,11 +69,11 @@ def compute_clip_model_update(
     """Compute model update (param1 - param2) and clip it.
 
     Then add the clipped value to param1."""
-    model_update = [np.subtract(x, y) for (x, y) in zip(param1, param2)]
+    model_update = [np.subtract(x, y) for (x, y) in zip(param1, param2)]  # type: ignore
     clip_inputs_inplace(model_update, clipping_norm)
 
     for i, _ in enumerate(param2):
-        param1[i] = param2[i] + model_update[i]
+        param1[i] = param2[i] + model_update[i]  # type: ignore
 
 
 def adaptive_clip_inputs_inplace(input_arrays: NDArrays, clipping_norm: float) -> bool:
@@ -86,7 +85,7 @@ def adaptive_clip_inputs_inplace(input_arrays: NDArrays, clipping_norm: float) -
     input_norm = get_norm(input_arrays)
     scaling_factor = min(1, clipping_norm / input_norm)
     for array in input_arrays:
-        array *= scaling_factor
+        array *= scaling_factor  # type: ignore
     return scaling_factor < 1
 
 
@@ -98,11 +97,11 @@ def compute_adaptive_clip_model_update(
     model update = param1 - param2
     Return the norm_bit
     """
-    model_update = [np.subtract(x, y) for (x, y) in zip(param1, param2)]
+    model_update = [np.subtract(x, y) for (x, y) in zip(param1, param2)]  # type: ignore
     norm_bit = adaptive_clip_inputs_inplace(model_update, clipping_norm)
 
     for i, _ in enumerate(param2):
-        param1[i] = param2[i] + model_update[i]
+        param1[i] = param2[i] + model_update[i]  # type: ignore
 
     return norm_bit
 
@@ -126,7 +125,7 @@ def compute_adaptive_noise_params(
     noise_multiplier: float,
     num_sampled_clients: float,
     clipped_count_stddev: Optional[float],
-) -> tuple[float, float]:
+) -> Tuple[float, float]:
     """Compute noising parameters for the adaptive clipping.
 
     Paper: https://arxiv.org/abs/1905.03871

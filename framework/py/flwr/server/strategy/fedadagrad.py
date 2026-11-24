@@ -19,7 +19,6 @@ Adaptive Federated Optimization using Adagrad.
 Paper: arxiv.org/abs/2003.00295
 """
 
-
 from typing import Callable, Optional, Union
 
 import numpy as np
@@ -146,7 +145,7 @@ class FedAdagrad(FedOpt):
         # Adagrad
         delta_t: NDArrays = [
             x - y for x, y in zip(fedavg_weights_aggregate, self.current_weights)
-        ]
+        ]  # type: ignore
 
         # m_t
         if not self.m_t:

@@ -14,7 +14,6 @@
 # ==============================================================================
 """RecordDict tests."""
 
-
 import pickle
 from collections import OrderedDict
 from copy import deepcopy
@@ -69,7 +68,7 @@ def test_ndarray_to_array() -> None:
 
     array = ndarray_to_array(arr)
 
-    arr_ = np.frombuffer(buffer=array.data, dtype=array.dtype).reshape(array.shape)
+    arr_ = np.frombuffer(buffer=array.data, dtype=array.dtype).reshape(array.shape)  # type: ignore
 
     assert np.array_equal(arr, arr_)
 
@@ -307,7 +306,7 @@ def test_set_metrics_to_metricrecord_with_and_without_keeping_input(
 )
 def test_set_configs_to_configrecord_with_correct_types(
     key_type: type[str],
-    value_fn: Callable[[NDArray], ConfigRecordValues],
+    value_fn: Callable[[np.ndarray], ConfigRecordValues],
 ) -> None:
     """Test adding configs of various types to a ConfigRecord."""
     labels = [1, 2.0]
@@ -351,7 +350,9 @@ def test_set_configs_to_configrecord_with_correct_types(
 )
 def test_set_configs_to_configrecord_with_incorrect_types(
     key_type: type[Union[str, int, float]],
-    value_fn: Callable[[NDArray], Union[NDArray, dict[str, NDArray], list[float]]],
+    value_fn: Callable[
+        [np.ndarray], Union[np.ndarray, dict[str, np.ndarray], list[float]]
+    ],
 ) -> None:
     """Test adding configs of various unsupported types to a ConfigRecord."""
     c_record = ConfigRecord()

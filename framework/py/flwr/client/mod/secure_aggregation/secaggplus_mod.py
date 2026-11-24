@@ -14,7 +14,6 @@
 # ==============================================================================
 """Modifier for the SecAgg+ protocol."""
 
-
 import os
 from dataclasses import dataclass, field
 from logging import DEBUG, WARNING
@@ -465,7 +464,7 @@ def _collect_masked_vectors(
         parameters, state.clipping_range, state.target_range
     )
 
-    quantized_parameters = factor_combine(q_ratio, quantized_parameters)
+    quantized_parameters = cast(NDArray, factor_combine(q_ratio, quantized_parameters))
 
     dimensions_list: list[tuple[int, ...]] = [a.shape for a in quantized_parameters]
 

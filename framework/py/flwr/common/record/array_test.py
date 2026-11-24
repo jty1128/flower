@@ -14,7 +14,6 @@
 # ==============================================================================
 """Unit tests for Array."""
 
-
 import sys
 import unittest
 from io import BytesIO
@@ -75,8 +74,8 @@ class TestArray(unittest.TestCase):
 
         # Execute
         array_instance = Array(
-            dtype=str(original_array.dtype),
-            shape=list(original_array.shape),
+            dtype=str(original_array.dtype),  # type: ignore
+            shape=list(original_array.shape),  # type: ignore
             stype=SType.NUMPY,
             data=buffer,
         )
