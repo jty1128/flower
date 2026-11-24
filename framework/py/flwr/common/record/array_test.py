@@ -14,7 +14,6 @@
 # ==============================================================================
 """Unit tests for Array."""
 
-
 import sys
 import unittest
 from io import BytesIO
@@ -26,11 +25,10 @@ import numpy as np
 from parameterized import parameterized
 
 from ..constant import SType
-from ..typing import NDArray
 from .array import Array
 
 
-def _get_buffer_from_ndarray(array: NDArray) -> bytes:
+def _get_buffer_from_ndarray(array: np.ndarray) -> bytes:
     """Return a bytes buffer from a given NumPy array."""
     buffer = BytesIO()
     np.save(buffer, array, allow_pickle=False)

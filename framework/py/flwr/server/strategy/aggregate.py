@@ -55,7 +55,8 @@ def aggregate_inplace(results: list[tuple[ClientProxy, FitRes]]) -> NDArrays:
     def _try_inplace(
         x: NDArray, y: Union[NDArray, np.float64], np_binary_op: np.ufunc
     ) -> NDArray:
-        return (  # type: ignore[no-any-return]
+        """Try to perform inplace operation."""
+        return (
             np_binary_op(x, y, out=x)
             if np.can_cast(y, x.dtype, casting="same_kind")
             else np_binary_op(x, np.array(y, x.dtype), out=x)
@@ -128,7 +129,7 @@ def aggregate_krum(
         return aggregate(best_results)
 
     # Return the model parameters that minimize the score (Krum)
-    return weights[np.argmin(scores)]
+    return weights[int(np.argmin(scores))]
 
 
 # pylint: disable=too-many-locals

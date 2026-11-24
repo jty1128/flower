@@ -19,7 +19,6 @@
 Paper: arxiv.org/abs/2003.00295
 """
 
-
 from typing import Callable, Optional, Union
 
 import numpy as np
@@ -151,14 +150,15 @@ class FedAdam(FedOpt):
 
         # Adam
         delta_t: NDArrays = [
-            x - y for x, y in zip(fedavg_weights_aggregate, self.current_weights)
+            x - y  # type: ignore
+            for x, y in zip(fedavg_weights_aggregate, self.current_weights)
         ]
 
         # m_t
         if not self.m_t:
             self.m_t = [np.zeros_like(x) for x in delta_t]
         self.m_t = [
-            np.multiply(self.beta_1, x) + (1 - self.beta_1) * y
+            np.multiply(self.beta_1, x) + (1 - self.beta_1) * y  # type: ignore
             for x, y in zip(self.m_t, delta_t)
         ]
 
@@ -166,7 +166,7 @@ class FedAdam(FedOpt):
         if not self.v_t:
             self.v_t = [np.zeros_like(x) for x in delta_t]
         self.v_t = [
-            self.beta_2 * x + (1 - self.beta_2) * np.multiply(y, y)
+            self.beta_2 * x + (1 - self.beta_2) * np.multiply(y, y)  # type: ignore
             for x, y in zip(self.v_t, delta_t)
         ]
 
@@ -181,7 +181,7 @@ class FedAdam(FedOpt):
         )
 
         new_weights = [
-            x + eta_norm * y / (np.sqrt(z) + self.tau)
+            x + eta_norm * y / (np.sqrt(z) + self.tau)  # type: ignore
             for x, y, z in zip(self.current_weights, self.m_t, self.v_t)
         ]
 
