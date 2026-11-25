@@ -19,7 +19,7 @@ from typing import Any, TypeVar, cast
 
 from google.protobuf.message import Message as GrpcMessage
 
-from flwr.proto.recorddict_pb2 import (
+from flwr.proto.recorddict_pb2 import (  # pylint: disable=no-name-in-module
     BoolList,
     BytesList,
     DoubleList,
