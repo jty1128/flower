@@ -17,7 +17,6 @@
 Paper: arxiv.org/abs/2003.00295
 """
 
-
 from typing import Callable, Optional, Union
 
 import numpy as np
@@ -168,7 +167,7 @@ class FedYogi(FedOpt):
         self.v_t = [
             x - (1.0 - self.beta_2) * np.multiply(y, y) * np.sign(x - np.multiply(y, y))
             for x, y in zip(self.v_t, delta_t)
-        ]
+        ]  # type: ignore
 
         new_weights = [
             x + self.eta * y / (np.sqrt(z) + self.tau)
