@@ -14,7 +14,6 @@
 # ==============================================================================
 """Wrapper for configuring a Flower client for DP."""
 
-
 import copy
 
 import numpy as np
@@ -139,7 +138,7 @@ class DPFedAvgNumPyClient(NumPyClient):
             update = add_gaussian_noise(update, config["dpfedavg_noise_stddev"])
 
         for i, _ in enumerate(original_params):
-            updated_params[i] = original_params[i] + update[i]
+            updated_params[i] = np.add(original_params[i], update[i])
 
         # Calculating value of norm indicator bit, required for adaptive clipping
         if "dpfedavg_adaptive_clip_enabled" in config:
