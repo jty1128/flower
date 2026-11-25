@@ -14,7 +14,6 @@
 # ==============================================================================
 """RecordDict tests."""
 
-
 import json
 import pickle
 from collections import OrderedDict
@@ -70,7 +69,7 @@ def test_ndarray_to_array() -> None:
 
     array = ndarray_to_array(arr)
 
-    arr_ = np.frombuffer(buffer=array.data, dtype=array.dtype).reshape(array.shape)
+    arr_ = np.frombuffer(buffer=array.data, dtype=array.dtype).reshape(array.shape)  # type: ignore
 
     assert np.array_equal(arr, arr_)
 

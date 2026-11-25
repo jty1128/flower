@@ -14,7 +14,6 @@
 # ==============================================================================
 """Flower client app."""
 
-
 import multiprocessing
 import os
 import sys
@@ -90,7 +89,7 @@ def _check_actionable_client(
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-statements
-def start_client_internal(
+def start_client_internal(  # pylint: disable=too-many-arguments
     *,
     server_address: str,
     node_config: UserConfig,
@@ -441,7 +440,6 @@ def start_client_internal(
                             # Execute ClientApp
                             reply_message = client_app(message=message, context=context)
                     except Exception as ex:  # pylint: disable=broad-exception-caught
-
                         # Legacy grpc-bidi
                         if transport in ["grpc-bidi", None]:
                             log(ERROR, "Client raised an exception.", exc_info=ex)
@@ -508,7 +506,9 @@ def start_client_internal(
         time.sleep(sleep_duration)
 
 
-def _init_connection(transport: Optional[str], server_address: str) -> tuple[
+def _init_connection(
+    transport: Optional[str], server_address: str
+) -> tuple[
     Callable[
         [
             str,
