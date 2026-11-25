@@ -14,7 +14,6 @@
 # ==============================================================================
 """Tests for in-memory grid."""
 
-
 import time
 import unittest
 from collections.abc import Iterable
@@ -92,6 +91,7 @@ class TestInMemoryGrid(unittest.TestCase):
             running_at="",
             finished_at="",
             status=RunStatus(status=Status.PENDING, sub_status="", details=""),
+            flwr_aid="",
         )
         state_factory = MagicMock(state=lambda: self.state)
         self.grid = InMemoryGrid(state_factory=state_factory)
@@ -238,7 +238,6 @@ def create_message_replies_for_specific_ids(message_ids: list[str]) -> list[Mess
     message_replies = []
 
     for msg_id in message_ids:
-
         message = message_from_proto(
             create_ins_message(
                 src_node_id=SUPERLINK_NODE_ID, dst_node_id=123, run_id=456
