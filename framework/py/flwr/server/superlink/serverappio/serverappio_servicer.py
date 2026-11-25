@@ -44,6 +44,12 @@ from flwr.proto.log_pb2 import (  # pylint: disable=E0611
     PushLogsRequest,
     PushLogsResponse,
 )
+from flwr.proto.message_pb2 import (  # pylint: disable=E0611
+    PullObjectRequest,
+    PullObjectResponse,
+    PushObjectRequest,
+    PushObjectResponse,
+)
 from flwr.proto.node_pb2 import Node  # pylint: disable=E0611
 from flwr.proto.run_pb2 import (  # pylint: disable=E0611
     CreateRunRequest,
@@ -361,6 +367,34 @@ class ServerAppIoServicer(serverappio_pb2_grpc.ServerAppIoServicer):
             for run_id, run_status in run_statuses.items()
         }
         return GetRunStatusResponse(run_status_dict=run_status_dict)
+
+    def PushObject(
+        self, request: PushObjectRequest, context: grpc.ServicerContext
+    ) -> PushObjectResponse:
+        """Push object content to Ffs."""
+        log(DEBUG, "ServerAppIoServicer.PushObject")
+        ffs: Ffs = self.ffs_factory.ffs()
+        object_hash = ffs.put(request.object_content, {})
+        _raise_if(
+            validation_error=object_hash != request.object_id,
+            request_name="PushObject",
+            detail=f"Object ({request.object_id}) hash from request doesn't match contents",
+        )
+        return PushObjectResponse()
+
+    def PullObject(
+        self, request: PullObjectRequest, context: grpc.ServicerContext
+    ) -> PullObjectResponse:
+        """Pull object content from Ffs."""
+        log(DEBUG, "ServerAppIoServicer.PullObject")
+        ffs: Ffs = self.ffs_factory.ffs()
+        if result := ffs.get(request.object_id):
+            return PullObjectResponse(
+                object_id=request.object_id,
+                object_content=result[0],
+            )
+
+        raise ValueError(f"Found no object with id: {request.object_id}")
 
 
 def _raise_if(validation_error: bool, request_name: str, detail: str) -> None:
