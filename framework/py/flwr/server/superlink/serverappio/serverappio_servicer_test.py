@@ -14,7 +14,6 @@
 # ==============================================================================
 """ServerAppIoServicer tests."""
 
-
 import tempfile
 import unittest
 from typing import Optional
@@ -331,9 +330,11 @@ class TestServerAppIoServicer(unittest.TestCase):  # pylint: disable=R0902
 
     @parameterized.expand(
         [
-            # The normal case: the message is recognized by both `LinkState` and `ObjectStore`
+            # The normal case: the message is recognized by both
+            # `LinkState` and `ObjectStore`
             (True,),
-            # The failure case: the message is found in `LinkState` but not in `ObjectStore`
+            # The failure case: the message is found in `LinkState`
+            # but not in `ObjectStore`
             (False,),
         ]
     )  # type: ignore
@@ -495,11 +496,10 @@ class TestServerAppIoServicer(unittest.TestCase):  # pylint: disable=R0902
         # This will trigger the creation of an Error message
         with patch(
             "time.time",
-            side_effect=lambda: message_ins.metadata.created_at
-            + message_ins.metadata.ttl
-            + 0.1,
+            side_effect=lambda: (
+                message_ins.metadata.created_at + message_ins.metadata.ttl + 0.1
+            ),
         ):  # over TTL limit
-
             request = PullResMessagesRequest(message_ids=[str(msg_id)], run_id=run_id)
 
             # Execute
